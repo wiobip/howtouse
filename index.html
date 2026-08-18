@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Инструкция — Glitch lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: #ffffff;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 300;
+      color: #2D3E30;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    :root {
+      --bg: #FFFFFF;
+      --surface: #F5F7F3;
+      --text-primary: #2D3E30;
+      --text-secondary: #5D6D60;
+      --accent: #5C7A5E;
+      --accent-light: #E8EFE6;
+      --border: rgba(92, 122, 94, 0.25);
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      padding: 0.8rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+      gap: 0.5rem 1rem;
+    }
+
+    .brand-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      letter-spacing: -0.5px;
+    }
+
+    .header-nav {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .header-nav a {
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 400;
+      color: var(--text-secondary);
+      padding: 0.4rem 0;
+      position: relative;
+      transition: color 0.2s;
+    }
+
+    .header-nav a::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: width 0.3s ease;
+    }
+
+    .header-nav a:hover,
+    .header-nav a.accent {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    .header-nav a:hover::after,
+    .header-nav a.accent::after {
+      width: 100%;
+    }
+
+    .main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 500;
+      color: var(--text-primary);
+      letter-spacing: -0.3px;
+    }
+
+    h1 {
+      font-size: clamp(2.8rem, 7vw, 4.2rem);
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      border-left: 5px solid var(--accent);
+      padding-left: 1.5rem;
+    }
+
+    h2 {
+      font-size: 2.2rem;
+      margin: 4rem 0 1.5rem;
+      padding-left: 1.2rem;
+      border-left: 3px solid var(--accent);
+    }
+
+    h3 {
+      font-size: 1.5rem;
+      margin: 2rem 0 0.8rem;
+      color: var(--text-primary);
+    }
+
+    p, li {
+      color: var(--text-secondary);
+      font-weight: 350;
+      font-size: 1.05rem;
+      margin-bottom: 1rem;
+    }
+
+    ul, ol {
+      margin-left: 1.8rem;
+      margin-bottom: 1.5rem;
+    }
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+
+    .block {
+      background: var(--surface);
+      border-radius: 2.2rem;
+      padding: 2.2rem;
+      margin: 1.5rem 0;
+      transition: box-shadow 0.3s;
+    }
+
+    .block:hover {
+      box-shadow: 0 15px 25px rgba(0,0,0,0.04);
+    }
+
+    .block h3 {
+      margin-top: 0;
+    }
+
+    .tip {
+      background: var(--accent-light);
+      border-left: 4px solid var(--accent);
+      padding: 1.2rem 1.8rem;
+      border-radius: 1rem;
+      margin: 1.8rem 0;
+    }
+
+    .tip p {
+      margin-bottom: 0;
+      color: var(--text-primary);
+    }
+
+    .btn {
+      display: inline-block;
+      background: rgba(92, 122, 94, 0.12);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: var(--accent);
+      padding: 0.85rem 2.2rem;
+      border-radius: 16px;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1rem;
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1.2);
+      border: 1px solid rgba(92, 122, 94, 0.3);
+      box-shadow: 0 8px 20px rgba(45, 62, 48, 0.08);
+      margin: 0.5rem 0.8rem 0.5rem 0;
+      letter-spacing: 0.4px;
+    }
+
+    .btn:hover {
+      background: rgba(92, 122, 94, 0.22);
+      border-color: rgba(92, 122, 94, 0.5);
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 14px 28px rgba(45, 62, 48, 0.15);
+    }
+
+    .btn-outline {
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(92, 122, 94, 0.4);
+      color: var(--accent);
+      box-shadow: none;
+    }
+
+    .btn-outline:hover {
+      background: rgba(92, 122, 94, 0.08);
+      border-color: rgba(92, 122, 94, 0.6);
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.06);
+    }
+
+    .section {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    footer {
+      margin-top: 5rem;
+      padding: 2rem;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    @media (max-width: 600px) {
+      .site-header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0.8rem 1.2rem;
+      }
+      .header-nav {
+        gap: 1rem;
+      }
+      .main {
+        padding: 1.5rem 1rem 2rem;
+      }
+      .block {
+        padding: 1.8rem 1.2rem;
+      }
+      h1 {
+        font-size: 2.5rem;
+      }
+      h2 {
+        font-size: 1.9rem;
+      }
+    }
+
+    @keyframes fadeInScale {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .visible .block {
+      animation: fadeInScale 0.5s ease forwards;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <span class="brand-name">Glitch lab</span>
+    <nav class="header-nav">
+      <a href="#read" class="accent">Как прочитать</a>
+      <a href="#rewrite">Перезапись</a>
+      <a href="#apps">Приложения</a>
+      <a href="#faq">FAQ</a>
+      <a href="/" class="btn btn-outline" style="padding:0.5rem 1.2rem; font-size:0.85rem;">На главную</a>
+    </nav>
+  </header>
+
+  <main class="main">
+    <!-- Заголовок и введение -->
+    <section class="section visible">
+      <h1>Инструкция к Glitch‑амулету</h1>
+      <p>Внутри каждого амулета — маленький NFC‑чип. Он работает без батареек и приложений. Просто поднесите телефон к украшению, и откроется зашитая в него ссылка: ваш сайт, соцсети, плейлист или страница‑визитка. Амулет работает с iPhone 7 и новее, а также с любым Android‑смартфоном с NFC.</p>
+      <div class="tip">
+        <p><strong>Совет:</strong> если вы купили амулет для себя, не забудьте проверить его прямо сейчас! Поднесите телефон — и убедитесь, что всё работает.</p>
+      </div>
+    </section>
+
+    <!-- Как прочитать ссылку -->
+    <section id="read" class="section">
+      <h2>Как прочитать ссылку с амулета</h2>
+      <p>Технология NFC встроена в большинство современных смартфонов. Обычно ничего настраивать не нужно — просто поднесите телефон к амулету.</p>
+
+      <div class="block">
+        <h3>📱 Для iPhone</h3>
+        <ul>
+          <li><strong>iPhone XR и новее:</strong> автоматическое считывание. Просто поднесите верхнюю часть телефона (область динамика) к амулету. Экран должен быть включён (разблокировка не обязательна). На экране появится уведомление — нажмите на него, чтобы открыть ссылку.</li>
+          <li><strong>iPhone 7, 8, 8 Plus, X:</strong> также работают с амулетом. Для считывания и записи используйте бесплатное приложение NFC Tools: откройте его, поднесите телефон к амулету — ссылка откроется.</li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <h3>🤖 Для Android</h3>
+        <ul>
+          <li>Разблокируйте телефон и поднесите его задней панелью к амулету (обычно область камеры или логотипа NFC).</li>
+          <li>Если ссылка не открылась, проверьте, включён ли NFC: откройте «Настройки» → «Подключения» → «NFC и бесконтактные платежи» и активируйте переключатель.</li>
+          <li>На большинстве устройств ссылка откроется автоматически или появится всплывающее уведомление.</li>
+        </ul>
+      </div>
+
+      <div class="tip">
+        <p><strong>Обратите внимание:</strong> если на телефоне надет металлический чехол, он может блокировать сигнал NFC. Обычные чехлы — силиконовые, пластиковые, кожаные — работе не мешают.</p>
+      </div>
+    </section>
+
+    <!-- Как перезаписать ссылку -->
+    <section id="rewrite" class="section">
+      <h2>Как перезаписать ссылку</h2>
+      <p>Амулет можно перепрограммировать сколько угодно раз. Для этого понадобится приложение <strong>NFC Tools</strong> — оно бесплатное и доступно для iPhone и Android.</p>
+
+      <div class="block">
+        <h3>🤖 На Android</h3>
+        <ol>
+          <li>Установите приложение <strong>NFC Tools</strong> из Google Play.</li>
+          <li>Откройте приложение и выберите пункт <strong>«Записать»</strong> (или «Write»).</li>
+          <li>Добавьте запись <strong>«URL / URI»</strong>.</li>
+          <li>Введите новую ссылку (например, <em>https://t.me/your_channel</em>).</li>
+          <li>Нажмите «Записать» и поднесите телефон задней панелью к амулету.</li>
+          <li>Дождитесь подтверждения об успешной записи. Готово!</li>
+        </ol>
+      </div>
+
+      <div class="block">
+        <h3>📱 На iPhone</h3>
+        <ol>
+          <li>Установите приложение <strong>NFC Tools</strong> из App Store.</li>
+          <li>Откройте приложение и выберите <strong>«Запись тега»</strong> (Write tag).</li>
+          <li>Добавьте запись <strong>URL</strong>.</li>
+          <li>Введите ссылку.</li>
+          <li>Нажмите «Записать» и поднесите верхнюю часть iPhone к амулету.</li>
+          <li>Дождитесь сообщения об успехе.</li>
+        </ol>
+        <p style="margin-top:1rem; font-style:italic;">Если на телефоне металлический чехол, снимите его перед записью.</p>
+      </div>
+
+      <div class="tip">
+        <p><strong>Важно:</strong> при перезаписи старая ссылка будет заменена. Если захотите вернуть прежнюю — просто запишите её заново.</p>
+      </div>
+    </section>
+
+    <!-- Приложения для записи -->
+    <section id="apps" class="section">
+      <h2>Какое приложение использовать</h2>
+      <p>Мы рекомендуем использовать <strong>NFC Tools</strong> — оно простое, бесплатное и работает одинаково хорошо на iPhone и Android.</p>
+
+      <div class="block">
+        <h3>NFC Tools</h3>
+        <p>Позволяет читать, записывать и стирать метки. Поддерживает множество типов записей, включая URL. Именно его мы советуем для работы с Glitch‑амулетом.</p>
+        <p><strong>Скачать:</strong> <a href="https://play.google.com/store/apps/details?id=com.wakdev.wdnfc" target="_blank" style="color:var(--accent);">Google Play</a> · <a href="https://apps.apple.com/app/nfc-tools/id1252962749" target="_blank" style="color:var(--accent);">App Store</a></p>
+      </div>
+
+      <p>Другие приложения тоже могут работать, но мы рекомендуем именно NFC Tools — это проверенное и удобное решение.</p>
+    </section>
+
+    <!-- Частые вопросы -->
+    <section id="faq" class="section">
+      <h2>Частые вопросы</h2>
+
+      <div class="block">
+        <h3>Нужно ли устанавливать приложение, чтобы просто открыть ссылку?</h3>
+        <p>Нет. На iPhone XR и новее, а также на большинстве Android‑смартфонов ссылка открывается автоматически. Приложение NFC Tools нужно только для перезаписи ссылки, а также для считывания на iPhone 7–8.</p>
+      </div>
+
+      <div class="block">
+        <h3>Мой телефон не реагирует на амулет. Что делать?</h3>
+        <p>Проверьте, включён ли NFC (на Android), разблокирован ли экран. Если на телефоне металлический чехол — снимите его. Поднесите телефон вплотную к амулету и слегка подвигайте, чтобы найти точку считывания.</p>
+      </div>
+
+      <div class="block">
+        <h3>Работает ли амулет с iPhone 7 или 8?</h3>
+        <p>Да, работает. На iPhone 7 и новее есть NFC. Для автоматического считывания без приложения нужны модели XR и новее, а на iPhone 7–8 можно считывать и записывать ссылки через бесплатное приложение NFC Tools.</p>
+      </div>
+
+      <div class="block">
+        <h3>Сколько раз можно перезаписывать амулет?</h3>
+        <p>Практически неограниченно. Чип рассчитан на десятки тысяч циклов записи, так что вы можете менять ссылку хоть каждый день.</p>
+      </div>
+
+      <div class="block">
+        <h3>Боится ли амулет воды, магнитов, ударов?</h3>
+        <p>Амулет покрыт прочным глянцевым защитным слоем, не боится брызг и бытовых ударов. Однако избегайте длительного воздействия сильных магнитов и экстремальных температур.</p>
+      </div>
+    </section>
+
+    <!-- Контакты -->
+    <section class="section">
+      <h2>Остались вопросы?</h2>
+      <p>Напишите нам — поможем разобраться с любыми сложностями.</p>
+      <a href="https://t.me/aurelsia" target="_blank" class="btn">Написать в Telegram</a>
+      <a href="https://vk.ru/aurelsia" target="_blank" class="btn btn-outline">Написать в ВК</a>
+    </section>
+  </main>
+
+  <footer>
+    <p>© Glitch lab — амулеты, которые соединяют миры · <a href="/">Вернуться на главную</a></p>
+  </footer>
+
+  <script>
+    (function() {
+      const sections = document.querySelectorAll('.section');
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -30px 0px'
+      });
+
+      sections.forEach(section => {
+        observer.observe(section);
+      });
+    })();
+  </script>
+</body>
+</html>
